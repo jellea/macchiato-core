@@ -2,7 +2,8 @@
   (:require
     [cljs.nodejs :as node]
     [macchiato.fs :as fs]
-    [macchiato.http :as http]))
+    [macchiato.http :as http]
+    [macchiato.util.aws-lambda :as lambda]))
 
 (def ^:no-doc ws (node/require "ws"))
 
@@ -55,3 +56,10 @@
   [server handler & [opts]]
   (let [wss (ws.Server. #js{:server server})]
     (.on wss "connection" (http/ws-handler handler opts))))
+
+(defn lambda-handler
+  "Usage (def ^:export handler (lambda-handler (wrap-defaults router)))"
+  [handler]
+  (fn [event ctx cb]
+    (let [m (lambda/request->map event ctx)]
+      (handler m (partial lambda/response cb) (partial lambda/raise cb)))))
