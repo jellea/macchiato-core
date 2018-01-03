@@ -5,15 +5,15 @@
   (let [req (.-proxyRequest request)
         ;;conn         (.-connection req)
         ;;url          (.parse url-parser (.-url req))
-        ;;NOTE: do I need to parse url? prob not
         ;;http-version (.-httpVersion req)
         headers      (js->clj (.-headers req) :keywordize-keys true)
         ;;address      (js->clj (.address conn) :keywordize-keys true)
+        scheme (-> req .-headers (aget "X-Forwarded-Proto") keyword)
 
-        out  {;;:server-port     (:port address)
-              ;;:server-name     (:address address)
-              ;;:remote-addr     (.-remoteAddress conn)
-              :headers         headers
+        out  {:server-port     (-> request .-normalizedHeaders (aget "x-forwarded-port") js/parseInt)
+              :server-name     (.. request -normalizedHeaders -host)
+              :remote-addr     ""
+              :headers         {}
               ;;:cookies         (cookies/request-cookies req res (:cookies opts))
               ;;:content-type    (get headers "content-type")
               ;;:content-length  (get headers "content-length")
@@ -21,21 +21,22 @@
               :url             (.-path req)
               :uri             (.-path req)
               ;;:query-string    (when-let [query (.-search url)] (.substring query 1))
-              :query-params    (js->clj (.-queryStringParameters req))
-              :body            (.-body req)}]
+              :query-params    (js->clj (.-queryStringParameters req) :keywordize-keys true)
+              :body            (.-body request)
               ;;:fresh?          (.-fresh req)
               ;;:hostname        (-> req .-headers .-host (str/split #":") first)
               ;;:params          (js->clj (.-params req))
-              ;;:protocol        (str (if (= :http scheme) "HTTP/" "HTTPS/") http-version)
+              :protocol        (str (if (= :http scheme) "HTTP/" "HTTPS/") "1.1")
               ;;:secure?         (.-secure req)
               ;;:signed-cookies  (js->clj (.-signedCookies req))
               ;;:ssl-client-cert (when-let [peer-cert-fn (.-getPeerCertificate conn)] (peer-cert-fn))
               ;;:stale?          (.-state req)
               ;;:subdomains      (js->clj (.-subdomains req))
               ;;:xhr?            (.-xhr req)
-              ;;:scheme          scheme
+              :scheme            scheme}]
               ;;:node/request    req
               ;;:node/response   res
+    (prn out)
     out))
 
 (defn response->map [{:keys [body] :as r}]

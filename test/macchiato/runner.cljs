@@ -16,7 +16,8 @@
     [macchiato.test.middleware.x-headers]
     [macchiato.test.util.mime-type]
     [macchiato.test.util.request]
-    [macchiato.test.util.response]))
+    [macchiato.test.util.response]
+    [macchiato.test.lambda]))
 
 (doo-tests 'macchiato.test.core-test
            'macchiato.test.middleware.anti-forgery
@@ -33,4 +34,5 @@
            'macchiato.test.util.mime-type
            'macchiato.test.middleware.x-headers
            'macchiato.test.util.request
-           'macchiato.test.util.response)
+           'macchiato.test.util.response
+           'macchiato.test.lambda)
