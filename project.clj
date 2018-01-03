@@ -1,4 +1,4 @@
-(defproject macchiato/core "0.2.4-SNAPSHOT"
+(defproject macchiato/core "0.2.7"
   :description "core Macchiato HTTP library"
   :url "https://github.com/yogthos/macchiato-framework/macchiato-core"
   :scm {:name "git"
@@ -6,27 +6,30 @@
   :license {:name "MIT License"
             :url  "http://opensource.org/licenses/MIT"}
   :clojurescript? true
-  :dependencies [[com.andrewmcveigh/cljs-time "0.5.0"]
-                 [com.cognitect/transit-cljs "0.8.239"]
-                 [funcool/cuerdas "2.0.3"]
-                 [macchiato/fs "0.1.1"]
+  :dependencies [[com.andrewmcveigh/cljs-time "0.5.2"]
+                 [com.cognitect/transit-cljs "0.8.243"]
+                 [funcool/cuerdas "2.0.4"]
+                 [macchiato/fs "0.2.1"]
                  [org.clojure/clojure "1.9.0" :scope "provided"]
-                 [org.clojure/clojurescript "1.9.854" :scope "provided"]]
+                 [org.clojure/clojurescript "1.9.946" :scope "provided"]]
   :plugins [[lein-cljsbuild "1.1.6"]
             [lein-codox "0.10.2"]
             [lein-doo "0.1.7"]
-            [lein-npm "0.6.2"]]
-  :npm {:dependencies [[concat-stream "1.5.2"]
-                       [content-type "1.0.2"]
-                       [cookies "0.6.2"]
-                       [etag "1.7.0"]
+            [macchiato/lein-npm "0.6.3"]]
+  :npm {:dependencies [[concat-stream "1.6.0"]
+                       [content-type "1.0.4"]
+                       [cookies "0.7.1"]
+                       [etag "1.8.1"]
                        [lru "3.1.0"]
-                       [multiparty "4.1.2"]
+                       [multiparty "4.1.3"]
                        [random-bytes "1.0.0"]
-                       [qs "6.3.0"]
-                       [simple-encryptor "1.1.0"]
+                       [qs "6.5.1"]
+                       [simple-encryptor "1.1.1"]
                        [url "0.11.0"]
-                       [ws "1.1.1"]]}
+                       [ws "3.3.3"]]}
+  :filespecs [{:type  :bytes
+               :path  "project.clj"
+               :bytes ~(slurp "project.clj")}]
   :codox {:language :clojurescript}
   :profiles {:test
              {:cljsbuild
